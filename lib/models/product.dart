@@ -26,13 +26,14 @@ class Product {
       isFavorite: this.isFavorite,
       shops: this.shops);
 
-  static Product fromJson(Map<String, dynamic> jsonData) => Product(
-      id: jsonData['id'],
-      name: jsonData['name'],
-      price: jsonData['price'],
-      discountPrice: jsonData['discountPrice'],
-      image: jsonData['image'],
-      isFavorite: jsonData['isFavorite']);
+  Product.fromJson(Map<String, dynamic> jsonData)
+      : id = jsonData['id'],
+        name = jsonData['name'],
+        price = jsonData['price'],
+        discountPrice = jsonData['discountPrice'],
+        image = jsonData['image'],
+        isFavorite = jsonData['isFavorite'],
+        shops = [];
 }
 
 class ProductShop {
