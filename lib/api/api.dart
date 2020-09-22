@@ -7,6 +7,8 @@ import '../models/product.dart';
 import '../models/shop.dart';
 
 class Api {
+  static String serverIP = '127.0.0.1';
+
   static int _lastId = 0;
 
   static List<Product> _products = [

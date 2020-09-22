@@ -7,6 +7,7 @@ import './blocs/shops/shops_bloc.dart';
 import './screens/cart_item_screen.dart';
 import './screens/cart_screen.dart';
 import './screens/home_screen.dart';
+import './screens/server_setup_screen.dart';
 import './widgets/shops_screen.dart';
 
 void main() {
@@ -19,15 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => ProductsCubit()..fetchProducts(),
-        ),
-        BlocProvider(
-          create: (ctx) => ShopsCubit(),
-        ),
-        BlocProvider(
-          create: (ctx) => CartCubit()..loadCart(),
-        ),
+        BlocProvider(create: (context) => ProductsCubit()),
+        BlocProvider(create: (ctx) => ShopsCubit()),
+        BlocProvider(create: (ctx) => CartCubit()),
       ],
       child: MaterialApp(
         title: 'ZShop',
@@ -37,7 +32,8 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             scaffoldBackgroundColor: Colors.white),
         routes: {
-          "/": (_) => HomeScreen(),
+          "/": (_) => ServerSetupScreen(),
+          HomeScreen.route: (_) => HomeScreen(),
           CartScreen.route: (_) => CartScreen(),
           ShopsScreen.route: (_) => ShopsScreen(),
           CartItemScreen.route: (_) => CartItemScreen()

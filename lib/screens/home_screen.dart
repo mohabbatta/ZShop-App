@@ -15,6 +15,8 @@ import '../widgets/product_price_widget.dart';
 import '../widgets/shops_screen.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const String route = "/home";
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
