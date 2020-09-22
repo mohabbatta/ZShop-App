@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/cart_item.dart';
 import '../models/product.dart';
@@ -265,9 +267,14 @@ class Api {
   static List<CartItem> _items = [];
 
   static Future<List<Product>> fetchProducts() async {
-    await Future.delayed(Duration(seconds: 2));
+    http.Response response = await http.get('http://${serverIP}:3000/products');
 
-    return _products;
+    if (response.statusCode == 200) {
+      List<dynamic> productsJsonData = json.decode(response.body);
+      return productsJsonData.map((e) => Product.fromJson(e)).toList();
+    } else {
+      return [];
+    }
   }
 
   static Future<Product> fetchProduct(String id) async {
