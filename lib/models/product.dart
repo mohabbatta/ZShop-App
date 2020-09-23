@@ -33,7 +33,10 @@ class Product {
         discountPrice = jsonData['discountPrice'],
         image = jsonData['image'],
         isFavorite = jsonData['isFavorite'],
-        shops = [];
+        shops = (jsonData['shops'] as List<dynamic>)
+                ?.map((e) => ProductShop.fromJson(e))
+                ?.toList() ??
+            [];
 }
 
 class ProductShop {
@@ -49,4 +52,11 @@ class ProductShop {
       @required this.image,
       @required this.price,
       this.discountPrice});
+
+  ProductShop.fromJson(Map<String, dynamic> jsonData)
+      : shopId = jsonData["id"],
+        shopName = jsonData['name'],
+        image = jsonData['image'],
+        price = jsonData['price'],
+        discountPrice = jsonData['discountPrice'];
 }
