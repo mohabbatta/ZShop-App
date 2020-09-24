@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
@@ -119,37 +120,16 @@ class Api {
     return _items;
   }
 
-  static Future<void> addToCart(Product product) async {
-    await Future.delayed(Duration(seconds: 1));
+  static Future<String> addToCart(Map<String, dynamic> jsonData) async {
+    http.Response response = await http.post('http://$serverIP:3000/cart',
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(jsonData));
 
-    CartItem item = _items.firstWhere(
-        (element) => element.productId == product.id,
-        orElse: () => null);
-
-    if (item != null) {
-      item.count++;
-
-      item.dateOfPurchase = DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
-          .format(DateTime.now());
+    if(response.statusCode == 201) {
+      return response.headers["location"].replaceFirst("/cart/", "");
     } else {
-      item = CartItem(
-          id: (_lastId++).toString(),
-          count: 1,
-          productId: product.id,
-          name: product.name,
-          price: "0",
-          image: product.image,
-          dateOfPurchase: DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
-              .format(DateTime.now()));
-
-      _items.add(item);
+      throw Exception("Server Error");
     }
-
-    item.price = product.discountPrice ?? product.price;
-    item.shopId = product.shops
-        .firstWhere((element) => element.price == item.price,
-            orElse: () => null)
-        ?.shopId;
   }
 
   static Future<void> removeFromCart(CartItem item) async {

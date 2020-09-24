@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CartItem {
-  final String id;
+  String id;
   int count;
   final String productId;
   final String name;
@@ -12,13 +12,23 @@ class CartItem {
 
   double get total => double.parse(price) * count;
 
-  CartItem({
-    @required this.id,
-    @required this.count,
-    @required this.productId,
-    @required this.name,
-    @required this.price,
-    @required this.image,
-    @required this.dateOfPurchase
-  });
+  CartItem(
+      {@required this.count,
+      @required this.productId,
+      @required this.name,
+      @required this.price,
+      @required this.image,
+      @required this.dateOfPurchase});
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> jsonData = {};
+
+    jsonData["productId"] = productId;
+    jsonData["name"] = name;
+    jsonData["price"] = price;
+    jsonData["image"] = image;
+    jsonData["date"] = dateOfPurchase;
+
+    return jsonData;
+  }
 }
