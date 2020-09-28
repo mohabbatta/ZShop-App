@@ -115,9 +115,19 @@ class Api {
   }
 
   static Future<List<CartItem>> loadCart() async {
-    await Future.delayed(Duration(seconds: 2));
+    // /cart
+    http.Response response = await http.get('http://$serverIP:3000/cart');
 
-    return _items;
+    // status 200, [ {} ]
+    if (response.statusCode == 200) {
+      // decode body
+      List<dynamic> decodedJson = json.decode(response.body);
+      
+      // map each json object to cart item object
+      return decodedJson.map((e) => CartItem.fromJson(e)).toList();
+    } else {
+      throw Exception("Server Error");
+    }
   }
 
   static Future<String> addToCart(Map<String, dynamic> jsonData) async {
@@ -125,7 +135,7 @@ class Api {
         headers: {"Content-Type": "application/json"},
         body: json.encode(jsonData));
 
-    if(response.statusCode == 201) {
+    if (response.statusCode == 201) {
       return response.headers["location"].replaceFirst("/cart/", "");
     } else {
       throw Exception("Server Error");

@@ -20,14 +20,26 @@ class CartItem {
       @required this.image,
       @required this.dateOfPurchase});
 
+  CartItem.fromJson(Map<String, dynamic> jsonData)
+      : id = jsonData["id"],
+        count = jsonData["count"],
+        productId = jsonData["productId"],
+        name = jsonData["name"],
+        price = jsonData["price"],
+        image = jsonData["image"],
+        dateOfPurchase = jsonData["date"],
+        shopId = jsonData["shopId"];
+
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonData = {};
 
     jsonData["productId"] = productId;
     jsonData["name"] = name;
     jsonData["price"] = price;
+    jsonData["count"] = count;
     jsonData["image"] = image;
     jsonData["date"] = dateOfPurchase;
+    jsonData["shopId"] = shopId;
 
     return jsonData;
   }
