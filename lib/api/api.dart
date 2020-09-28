@@ -101,9 +101,19 @@ class Api {
   }
 
   static Future<List<Shop>> fetchShops() async {
-    await Future.delayed(Duration(seconds: 2));
+    // GET /shops
+    http.Response response = await http.get("http://$serverIP:3000/shops");
 
-    return _shops;
+    // 200, [ {} ]
+    if (response.statusCode == 200) {
+      // decode JSON
+      List<dynamic> jsonData = json.decode(response.body);
+
+      // map each json object to Shop
+      return jsonData.map((e) => Shop.fromJson(e)).toList();
+    } else {
+      throw Exception("Server Error");
+    }
   }
 
   static Future<Shop> fetchShop(String id) async {
