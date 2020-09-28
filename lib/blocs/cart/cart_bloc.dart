@@ -24,6 +24,7 @@ class CartCubit extends Cubit<CartState> {
   }
 
   void addToCart(Product product) async {
+    bool isNew = true;
     emit(AddingToCart());
 
     CartItem item = _items.firstWhere(
@@ -35,6 +36,8 @@ class CartCubit extends Cubit<CartState> {
 
       item.dateOfPurchase = DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
           .format(DateTime.now());
+
+      isNew = false;
     } else {
       item = CartItem(
           count: 1,
@@ -44,8 +47,6 @@ class CartCubit extends Cubit<CartState> {
           image: product.image,
           dateOfPurchase: DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
               .format(DateTime.now()));
-
-      // _items.add(item);
     }
 
     item.price = product.discountPrice ?? product.price;
@@ -55,8 +56,19 @@ class CartCubit extends Cubit<CartState> {
         ?.shopId;
 
     try {
-      item.id = await Api.addToCart(item.toJson());
-      _items.add(item);
+      if (isNew) {
+        item.id = await Api.addToCart(item.toJson());
+        _items.add(item);
+      } else {
+        Map<String, dynamic> jsonData = {};
+
+        jsonData["count"] = item.count;
+        jsonData["date"] = item.dateOfPurchase;
+        jsonData["price"] = item.price;
+        jsonData["shopId"] = item.shopId;
+
+        await Api.updateCartItem(item.id, jsonData);
+      }
 
       emit(AddedToCart());
 

@@ -142,6 +142,16 @@ class Api {
     }
   }
 
+  static Future<void> updateCartItem(id, Map<String, dynamic> jsonData) async {
+    http.Response response = await http.patch('http://$serverIP:3000/cart/$id',
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(jsonData));
+
+    if (response.statusCode != 200) {
+      throw Exception("Server Error");
+    }
+  }
+
   static Future<void> removeFromCart(String id) async {
     // DELETE /cart/ID
     http.Response response =
