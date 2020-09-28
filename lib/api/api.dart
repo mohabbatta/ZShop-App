@@ -163,9 +163,16 @@ class Api {
     }
   }
 
-  static Future<void> placeOrder() async {
-    await Future.delayed(Duration(seconds: 2));
+  static Future<void> placeOrder(Map<String, dynamic> jsonData) async {
+    // /orders --> { address: ID }
 
-    _items.clear();
+    http.Response response = await http.post("http://$serverIP:3000/orders",
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(jsonData));
+
+    // 201, location HEADER
+    if (response.statusCode != 201) {
+      throw Exception("Server Error");
+    }
   }
 }

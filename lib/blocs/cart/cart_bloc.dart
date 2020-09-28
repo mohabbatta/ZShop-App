@@ -96,7 +96,13 @@ class CartCubit extends Cubit<CartState> {
 
   void placeOrder() async {
     try {
-      await Api.placeOrder();
+      Map<String, dynamic> jsonData = {};
+
+      jsonData["address"] = 1;
+
+      await Api.placeOrder(jsonData);
+
+      _items.clear();
 
       emit(OrderPlaced());
 
