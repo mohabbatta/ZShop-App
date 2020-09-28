@@ -122,7 +122,7 @@ class Api {
     if (response.statusCode == 200) {
       // decode body
       List<dynamic> decodedJson = json.decode(response.body);
-      
+
       // map each json object to cart item object
       return decodedJson.map((e) => CartItem.fromJson(e)).toList();
     } else {
@@ -142,10 +142,15 @@ class Api {
     }
   }
 
-  static Future<void> removeFromCart(CartItem item) async {
-    await Future.delayed(Duration(seconds: 2));
+  static Future<void> removeFromCart(String id) async {
+    // DELETE /cart/ID
+    http.Response response =
+        await http.delete('http://$serverIP:3000/cart/$id');
 
-    _items.remove(item);
+    // 200
+    if (response.statusCode != 200) {
+      throw Exception("Server Error");
+    }
   }
 
   static Future<void> placeOrder() async {

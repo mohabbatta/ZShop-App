@@ -70,7 +70,9 @@ class CartCubit extends Cubit<CartState> {
     emit(RemovingFromToCart());
 
     try {
-      await Api.removeFromCart(item);
+      await Api.removeFromCart(item.id);
+
+      _items.remove(item);
 
       emit(RemovedFromToCart());
 
