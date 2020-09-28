@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/cart_item.dart';
@@ -12,67 +10,7 @@ import '../models/shop.dart';
 class Api {
   static String serverIP = '127.0.0.1';
 
-  static int _lastId = 0;
-
-  static List<Shop> _shops = [
-    Shop(
-        id: "1",
-        name: 'Carrefour',
-        image: 'assets/images/carrefour.jpg',
-        items: [
-          ShopItem(
-            name: 'Juhayana Full Cream Milk',
-            price: '15.70',
-            image: 'assets/images/juhayna.jpg_480Wx480H',
-          ),
-          ShopItem(
-            name: 'Heinz Tomato Paste',
-            price: '10.75',
-            image: 'assets/images/Heinz.jpg_480Wx480H',
-          ),
-          ShopItem(
-            name: 'Nestle Quality Street Chocolate',
-            price: '170',
-            discountPrice: '145.95',
-            image:
-                'assets/images/Nestle Quality Street Chocolate.jpg_480Wx480H',
-          ),
-        ]),
-    Shop(
-        id: '2',
-        name: 'Hyperone',
-        image: 'assets/images/hyperone.png',
-        items: [
-          ShopItem(
-            name: 'Pampers',
-            price: '160',
-            image: 'assets/images/Pampers.jpg_480Wx480H',
-          ),
-          ShopItem(
-            name: 'Heinz Tomato Paste',
-            price: '12',
-            image: 'assets/images/Heinz.jpg_480Wx480H',
-          ),
-        ]),
-    Shop(
-        id: '3',
-        name: 'Spinneys',
-        image: 'assets/images/spinneys.png',
-        items: [
-          ShopItem(
-            name: 'Pampers',
-            price: '160.01',
-            image: 'assets/images/Pampers.jpg_480Wx480H',
-          ),
-          ShopItem(
-            name: 'Heinz Tomato Paste',
-            price: '11',
-            image: 'assets/images/Heinz.jpg_480Wx480H',
-          ),
-        ]),
-  ];
-
-  static List<CartItem> _items = [];
+  static List<Shop> _shops = [];
 
   static Future<List<Product>> fetchProducts() async {
     http.Response response = await http.get('http://${serverIP}:3000/products');
@@ -110,15 +48,15 @@ class Api {
       List<dynamic> jsonData = json.decode(response.body);
 
       // map each json object to Shop
-      return jsonData.map((e) => Shop.fromJson(e)).toList();
+      _shops = jsonData.map((e) => Shop.fromJson(e)).toList();
+
+      return _shops;
     } else {
       throw Exception("Server Error");
     }
   }
 
   static Future<Shop> fetchShop(String id) async {
-    await Future.delayed(Duration(seconds: 2));
-
     var p = _shops.singleWhere((element) => element.id == id);
 
     return p;
