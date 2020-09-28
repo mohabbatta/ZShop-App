@@ -84,7 +84,7 @@ class CartCubit extends Cubit<CartState> {
     try {
       await Api.removeFromCart(item.id);
 
-      _items.remove(item);
+      _items.removeWhere((i) => i.id == item.id);
 
       emit(RemovedFromToCart());
 
