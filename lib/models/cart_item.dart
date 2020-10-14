@@ -21,7 +21,7 @@ class CartItem {
       @required this.dateOfPurchase});
 
   CartItem.fromJson(Map<String, dynamic> jsonData)
-      : id = jsonData["id"],
+      : id = jsonData["_id"],
         count = jsonData["count"],
         productId = jsonData["productId"],
         name = jsonData["name"],
