@@ -12,7 +12,7 @@ class Shop {
   });
 
   Shop.fromJson(Map<String, dynamic> jsonData)
-      : id = jsonData["id"],
+      : id = jsonData["_id"],
         name = jsonData["name"],
         image = jsonData["image"],
         items = (jsonData["items"] as List<dynamic>)
