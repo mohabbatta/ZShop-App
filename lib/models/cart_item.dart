@@ -21,7 +21,7 @@ class CartItem {
       @required this.dateOfPurchase});
 
   CartItem.fromJson(Map<String, dynamic> jsonData)
-      : id = jsonData["_id"],
+      : id = jsonData["id"],
         count = jsonData["count"],
         productId = jsonData["productId"],
         name = jsonData["name"],
@@ -32,7 +32,6 @@ class CartItem {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonData = {};
-
     jsonData["productId"] = productId;
     jsonData["name"] = name;
     jsonData["price"] = price;

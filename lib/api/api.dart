@@ -8,13 +8,14 @@ import '../models/product.dart';
 import '../models/shop.dart';
 
 class Api {
-  static String serverIP = '127.0.0.1';
+  static String serverIP = '10.0.2.2';
 
   static List<Shop> _shops = [];
 
   static Future<List<Product>> fetchProducts() async {
     http.Response response = await http.get('http://${serverIP}:3000/products');
 
+    print(response.body);
     if (response.statusCode == 200) {
       List<dynamic> productsJsonData = json.decode(response.body);
       return productsJsonData.map((e) => Product.fromJson(e)).toList();
@@ -25,7 +26,7 @@ class Api {
 
   static Future<Product> fetchProduct(String id) async {
     http.Response response =
-        await http.get('http://${serverIP}:3000/products/${id}');
+        await http.get('http://10.0.2.2:3000/products/${id}');
 
     if (response.statusCode == 200) {
       print(response.body);

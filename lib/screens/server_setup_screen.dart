@@ -25,7 +25,7 @@ class ServerSetupScreen extends StatelessWidget {
               child: FormBuilderTextField(
                 attribute: "ip",
                 decoration: InputDecoration(labelText: "Express API Server IP"),
-                autovalidate: true,
+                // autovalidate: true,
                 validators: [FormBuilderValidators.IP(version: 4)],
                 onChanged: (_) => _fbKey.currentState.saveAndValidate(),
               ),

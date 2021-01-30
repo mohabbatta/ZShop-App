@@ -27,7 +27,7 @@ class Product {
       shops: this.shops);
 
   Product.fromJson(Map<String, dynamic> jsonData)
-      : id = jsonData['_id'],
+      : id = jsonData['id'],
         name = jsonData['name'],
         price = jsonData['price'],
         discountPrice = jsonData['discountPrice'],

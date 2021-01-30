@@ -122,7 +122,11 @@ class CartItemWidget extends StatelessWidget {
           child: Row(
             children: <Widget>[
               const Spacer(),
-              const Icon(Icons.delete_forever, color: Colors.white, size: 30,),
+              const Icon(
+                Icons.delete_forever,
+                color: Colors.white,
+                size: 30,
+              ),
               const SizedBox(width: 8)
             ],
           )),
@@ -161,7 +165,7 @@ class CartItemWidget extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              Text(item.total.toString(),
+              Text(item.total.toStringAsFixed(2),
                   style: TextStyle(
                       fontSize: 18,
                       color: Colors.red,
